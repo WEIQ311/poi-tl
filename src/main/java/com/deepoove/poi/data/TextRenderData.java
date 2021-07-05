@@ -15,6 +15,7 @@
  */
 package com.deepoove.poi.data;
 
+import com.deepoove.poi.data.builder.StyleBuilder;
 import com.deepoove.poi.data.style.Style;
 
 /**
@@ -25,35 +26,43 @@ import com.deepoove.poi.data.style.Style;
  *
  */
 public class TextRenderData implements RenderData {
-	private Style style;
-	private String text;
+    protected Style style;
 
-	public TextRenderData() {
-	}
+    /**
+     * \n 表示换行，表格内换行参见：https://github.com/Sayi/poi-tl/issues/295
+     */
+    protected String text;
 
-	public TextRenderData(String text) {
-		this.text = text;
-	}
+    public TextRenderData() {}
 
-	public TextRenderData(String color, String text) {
-		this.style = new Style(color);
-		this.text = text;
-	}
+    public TextRenderData(String text) {
+        this.text = text;
+    }
 
-	public Style getStyle() {
-		return style;
-	}
+    public TextRenderData(String color, String text) {
+        this.style = StyleBuilder.newBuilder().buildColor(color).build();
+        this.text = text;
+    }
 
-	public void setStyle(Style style) {
-		this.style = style;
-	}
+    public TextRenderData(String text, Style style) {
+        this.style = style;
+        this.text = text;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public Style getStyle() {
+        return style;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setStyle(Style style) {
+        this.style = style;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
 }

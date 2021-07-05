@@ -15,61 +15,61 @@
  */
 package com.deepoove.poi.policy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import com.deepoove.poi.XWPFTemplate;
+import com.deepoove.poi.NiceXWPFDocument;
+import com.deepoove.poi.data.HyperLinkTextRenderData;
 import com.deepoove.poi.data.TextRenderData;
-import com.deepoove.poi.template.ElementTemplate;
-import com.deepoove.poi.template.run.RunTemplate;
+import com.deepoove.poi.render.RenderContext;
 import com.deepoove.poi.util.StyleUtils;
 
-public class TextRenderPolicy implements RenderPolicy {
+/**
+ * @author Sayi
+ * @version
+ */
+public class TextRenderPolicy extends AbstractRenderPolicy<Object> {
 
-	private static final String LINE_CHARACTOR = "\\n";
+    public static final String REGEX_LINE_CHARACTOR = "\\n";
 
-	@Override
-	public void render(ElementTemplate eleTemplate, Object renderData, XWPFTemplate template) {
-		RunTemplate runTemplate = (RunTemplate) eleTemplate;
-		XWPFRun run = runTemplate.getRun();
-		if (null == renderData) {
-			// support String to set blank
-			run.setText("", 0);
-			return;
-		}
+    @Override
+    protected boolean validate(Object data) {
+        return null != data;
+    }
 
-		TextRenderData textRenderData = null;
-		if (renderData instanceof TextRenderData) {
-			textRenderData = (TextRenderData) renderData;
-		} else {
-			textRenderData = new TextRenderData(renderData.toString());
-		}
-		String data = textRenderData.getText();
-		StyleUtils.styleRun(run, textRenderData.getStyle());
-		if (null == data) data = "";
+    @Override
+    public void doRender(RenderContext<Object> context) throws Exception {
+        Helper.renderTextRun(context.getRun(), context.getData());
+    }
 
-		if (data.contains(LINE_CHARACTOR)) {
-			// String[] lines = data.split("\\n");
-			int from = 0, end = 0;
-			List<String> lines = new ArrayList<String>();
-			while (-1 != (end = data.indexOf(LINE_CHARACTOR, from))) {
-				lines.add(data.substring(from, end));
-				from = end + LINE_CHARACTOR.length();
-			}
-			lines.add(data.substring(from));
-			Object[] linesArray = lines.toArray();
-			run.setText(linesArray[0].toString(), 0); // set first line into
-														// XWPFRun
-			for (int i = 1; i < linesArray.length; i++) {
-				run.addBreak(); // add break and insert new text
-				run.setText(linesArray[i].toString());
-			}
-		} else {
-			run.setText(data, 0);
-		}
-	}
+    public static class Helper {
 
-	
+        public static void renderTextRun(XWPFRun run, Object renderData) {
+            XWPFRun textRun = run;
+            // create hyper link run
+            if (renderData instanceof HyperLinkTextRenderData) {
+                XWPFRun hyperLinkRun = NiceXWPFDocument.insertNewHyperLinkRun(run,
+                        ((HyperLinkTextRenderData) renderData).getUrl());
+                run.setText("", 0);
+                textRun = hyperLinkRun;
+            }
+
+            // text
+            TextRenderData data = renderData instanceof TextRenderData
+                    ? (TextRenderData) renderData
+                    : new TextRenderData(renderData.toString());
+
+            String text = null == data.getText() ? "" : data.getText();
+
+            StyleUtils.styleRun(textRun, data.getStyle());
+
+            String[] split = text.split(REGEX_LINE_CHARACTOR, -1);
+            if (null != split && split.length > 0) {
+                textRun.setText(split[0], 0);
+                for (int i = 1; i < split.length; i++) {
+                    textRun.addCarriageReturn();
+                    textRun.setText(split[i]);
+                }
+            }
+        }
+    }
 }

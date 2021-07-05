@@ -35,99 +35,62 @@ import java.util.List;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import com.deepoove.poi.config.GramerSymbol;
 import com.deepoove.poi.template.ElementTemplate;
 
 /**
- * basic docx element：run
+ * basic docx template element：run
  * 
  * @author Sayi
  * @version 0.0.1
  */
 public class RunTemplate extends ElementTemplate {
 
-	protected XWPFRun run;
+    protected XWPFRun run;
 
-	public RunTemplate() {
-	}
+    public RunTemplate() {}
 
-	public RunTemplate(String tagName, XWPFRun run) {
-		this.tagName = tagName;
-		this.run = run;
-	}
-	
-	/**
-	 * @param parseGramer
-	 * @param tagName
-	 * @param run
-	 * @return
-	 * @deprecated 
-	 */
-	public static RunTemplate createRunTemplate(GramerSymbol parseGramer,
-			String tagName, XWPFRun run) {
-		RunTemplate template = null;
-		if (parseGramer == GramerSymbol.IMAGE) {
-			template = new PictureRunTemplate();
-		} else if (parseGramer == GramerSymbol.TABLE) {
-			template = new TableRunTemplate();
-		} else if (parseGramer == GramerSymbol.NUMBERIC) {
-			template = new NumbericRunTemplate();
-		}else {
-			// if (parseGramer == GramerSymbol.TEXT) {
-			template = new TextRunTemplate();
-		}
-		template.source = GramerSymbol.GRAMER_PREFIX + parseGramer.toString()
-				+ tagName + GramerSymbol.GRAMER_SUFFIX;
-		template.tagName = tagName;
-		template.sign = parseGramer.getSymbol();
-		template.run = run;
-		return template;
-	}
-	
+    public RunTemplate(String tagName, XWPFRun run) {
+        this.tagName = tagName;
+        this.run = run;
+    }
 
-	public Integer getRunPos() {
-		XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
-		List<XWPFRun> runs = paragraph.getRuns();
-		for (int i = 0; i < runs.size(); i++) {
-			if (run == runs.get(i)) {
-				return i;
-			}
-		}
-		return null;
-	}
+    public Integer getRunPos() {
+        XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
+        List<XWPFRun> runs = paragraph.getRuns();
+        for (int i = 0; i < runs.size(); i++) {
+            if (run == runs.get(i)) { return i; }
+        }
+        return null;
+    }
 
-	public XWPFRun getBeforeRun() {
-		Integer runPos = getRunPos();
-		if (null == runPos)
-			return null;
-		XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
-		return runPos == 0 ? null : paragraph.getRuns().get(runPos - 1);
-	}
+    public XWPFRun getBeforeRun() {
+        Integer runPos = getRunPos();
+        if (null == runPos) return null;
+        XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
+        return runPos == 0 ? null : paragraph.getRuns().get(runPos - 1);
+    }
 
-	public XWPFRun getAfterRun() {
-		Integer runPos = getRunPos();
-		if (null == runPos)
-			return null;
-		XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
-		return runPos == (paragraph.getRuns().size() - 1) ? null : paragraph
-				.getRuns().get(runPos + 1);
-	}
+    public XWPFRun getAfterRun() {
+        Integer runPos = getRunPos();
+        if (null == runPos) return null;
+        XWPFParagraph paragraph = (XWPFParagraph) run.getParent();
+        return runPos == (paragraph.getRuns().size() - 1) ? null
+                : paragraph.getRuns().get(runPos + 1);
+    }
 
-	/**
-	 * @return the run
-	 */
-	public XWPFRun getRun() {
-		return run;
-	}
+    /**
+     * @return the run
+     */
+    public XWPFRun getRun() {
+        return run;
+    }
 
-	/**
-	 * @param run
-	 *            the run to set
-	 */
-	public void setRun(XWPFRun run) {
-		this.run = run;
-	}
-
-	
+    /**
+     * @param run
+     *            the run to set
+     */
+    public void setRun(XWPFRun run) {
+        this.run = run;
+    }
 
 }

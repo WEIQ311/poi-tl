@@ -15,6 +15,8 @@
  */
 package com.deepoove.poi.data.style;
 
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STHighlightColor;
+
 /**
  * 样式
  * 
@@ -24,71 +26,113 @@ package com.deepoove.poi.data.style;
  */
 public class Style {
 
-	private String color;
-	private String fontFamily;
-	private int fontSize;
-	private Boolean isBold;
-	private Boolean isItalic;
-	private Boolean isStrike;
+    /**
+     * 文字颜色
+     */
+    private String color;
+    /**
+     * 字体
+     */
+    private String fontFamily;
+    /**
+     * 字体大小
+     */
+    private int fontSize;
+    /**
+     * 粗体
+     */
+    private Boolean isBold;
+    /**
+     * 斜体
+     */
+    private Boolean isItalic;
+    /**
+     * 删除线
+     */
+    private Boolean isStrike;
+    /**
+     * 下划线
+     */
+    private Boolean isUnderLine;
 
-	public Style() {
-	}
+    /**
+     * 文本背景突出显示颜色
+     */
+    private STHighlightColor.Enum highlightColor;
 
-	public Style(String color) {
-		this.color = color;
-	}
+    public Style() {}
 
-	public Style(String fontFamily, int fontSize) {
-		this.fontFamily = fontFamily;
-		this.fontSize = fontSize;
-	}
+    public Style(String color) {
+        this.color = color;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public Style(String fontFamily, int fontSize) {
+        this.fontFamily = fontFamily;
+        this.fontSize = fontSize;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public String getFontFamily() {
-		return fontFamily;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
-	public void setFontFamily(String fontFamily) {
-		this.fontFamily = fontFamily;
-	}
+    public String getFontFamily() {
+        return fontFamily;
+    }
 
-	public int getFontSize() {
-		return fontSize;
-	}
+    public void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
+    }
 
-	public void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
-	}
+    public int getFontSize() {
+        return fontSize;
+    }
 
-	public Boolean isBold() {
-		return isBold;
-	}
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
 
-	public void setBold(Boolean isBold) {
-		this.isBold = isBold;
-	}
+    public Boolean isBold() {
+        return isBold;
+    }
 
-	public Boolean isItalic() {
-		return isItalic;
-	}
+    public void setBold(Boolean isBold) {
+        this.isBold = isBold;
+    }
 
-	public void setItalic(Boolean isItalic) {
-		this.isItalic = isItalic;
-	}
+    public Boolean isItalic() {
+        return isItalic;
+    }
 
-	public Boolean isStrike() {
-		return isStrike;
-	}
+    public void setItalic(Boolean isItalic) {
+        this.isItalic = isItalic;
+    }
 
-	public void setStrike(Boolean isStrike) {
-		this.isStrike = isStrike;
-	}
+    public Boolean isStrike() {
+        return isStrike;
+    }
+
+    public void setStrike(Boolean isStrike) {
+        this.isStrike = isStrike;
+    }
+
+    public Boolean isUnderLine() {
+        return isUnderLine;
+    }
+
+    public void setUnderLine(Boolean isUnderLine) {
+        this.isUnderLine = isUnderLine;
+    }
+
+    public STHighlightColor.Enum getHighlightColor() {
+        return highlightColor;
+    }
+
+    public void setHighlightColor(STHighlightColor.Enum highlightColor) {
+        this.highlightColor = highlightColor;
+    }
 
 }

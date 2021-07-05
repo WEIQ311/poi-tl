@@ -22,18 +22,18 @@ import com.deepoove.poi.template.ElementTemplate;
 import com.deepoove.poi.template.run.RunTemplate;
 
 /**
- * slef render
+ * self render
+ * 
  * @author Sayi
  * @version 0.0.3
  */
 public class SelfRenderPolicy implements RenderPolicy {
 
-	@Override
-	public void render(ElementTemplate eleTemplate, Object renderData,
-			XWPFTemplate template) {
-		RunTemplate runTemplate = (RunTemplate) eleTemplate;
-		XWPFRun run = runTemplate.getRun();
-		run.setText(runTemplate.getSource(), 0);
-	}
+    @Override
+    public void render(ElementTemplate eleTemplate, Object renderData, XWPFTemplate template) {
+        RunTemplate runTemplate = (RunTemplate) eleTemplate;
+        XWPFRun run = runTemplate.getRun();
+        run.setText(runTemplate.getSource(), 0);
+    }
 
 }

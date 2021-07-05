@@ -15,6 +15,8 @@
  */
 package com.deepoove.poi.util;
 
+import java.text.MessageFormat;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -25,16 +27,26 @@ import org.apache.commons.lang3.StringUtils;
  */
 public final class RegexUtils {
 
-	public static String escapeExprSpecialWord(String keyword) {
-		if (StringUtils.isNotBlank(keyword)) {
-			String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}",
-					"|" };
-			for (String key : fbsArr) {
-				if (keyword.contains(key)) {
-					keyword = keyword.replace(key, "\\" + key);
-				}
-			}
-		}
-		return keyword;
-	}
+    /**
+     * 通用全能的正则表达式Pattern
+     */
+    public static final String REGEX_GENERAL = "((?!{0})(?!{1}).)*";
+
+    public static String escapeExprSpecialWord(String keyword) {
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}",
+                    "|" };
+            for (String key : fbsArr) {
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
+    }
+
+    public static String createGeneral(String prefix, String suffix) {
+        return MessageFormat.format(REGEX_GENERAL, escapeExprSpecialWord(prefix),
+                escapeExprSpecialWord(suffix));
+    }
 }
